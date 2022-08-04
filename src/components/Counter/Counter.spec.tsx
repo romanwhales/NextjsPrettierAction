@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Counter } from "./Counter";
 import user from "@testing-library/user-event";
 
@@ -18,8 +18,10 @@ describe("Counter ", () => {
         user.type(screen.getByLabelText(/Incrementor/), "{selectall}5");
         user.click(screen.getByRole("button", { name: "Add to Counter" }));
       });
-      it("renders 'Current count: 15'", () => {
-        expect(screen.getByText(/Current count: 15/)).toBeInTheDocument();
+      it("renders 'Current count: 15'", async () => {
+        await waitFor(() =>
+          expect(screen.getByText(/Current count: 15/)).toBeInTheDocument()
+        );
       });
     });
     describe("when the incrementor changes to 25 and '-' button is clicked", () => {
@@ -48,8 +50,10 @@ describe("Counter ", () => {
       beforeEach(() => {
         fireEvent.click(screen.getByRole("button", { name: "Add to Counter" }));
       });
-      it("renders 'Current count: 1'", () => {
-        expect(screen.getByText("Current count: 1")).toBeInTheDocument();
+      it("renders 'Current count: 1'", async () => {
+        await waitFor(() =>
+          expect(screen.getByText("Current count: 1")).toBeInTheDocument()
+        );
       });
     });
 
