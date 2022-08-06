@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { Counter } from "./Counter";
 import user from "@testing-library/user-event";
 
@@ -17,6 +23,11 @@ describe("Counter ", () => {
       beforeEach(() => {
         user.type(screen.getByLabelText(/Incrementor/), "{selectall}5");
         user.click(screen.getByRole("button", { name: "Add to Counter" }));
+      });
+      it("renders too big, and will disappear after 300 ms", async () => {
+        await waitForElementToBeRemoved(() =>
+          screen.queryByText("I am too small")
+        );
       });
       it("renders 'Current count: 15'", async () => {
         await waitFor(() =>
